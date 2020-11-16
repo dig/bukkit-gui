@@ -1,6 +1,7 @@
 package com.github.dig.gui.inventory;
 
 import com.github.dig.gui.Gui;
+import com.github.dig.gui.GuiRegistry;
 import com.github.dig.gui.state.ComponentClickState;
 import com.github.dig.gui.state.GuiDragState;
 import com.github.dig.gui.state.GuiItemChangeState;
@@ -43,8 +44,13 @@ public abstract class InventoryGui implements Gui {
     }
 
     @Override
-    public Listener createListener() {
-        return new InventoryGuiListener(this);
+    public int getViewerCount() {
+        return viewers.size();
+    }
+
+    @Override
+    public Listener createListener(GuiRegistry guiRegistry) {
+        return new InventoryGuiListener(this, guiRegistry);
     }
 
     public boolean isControllable(int slot) {

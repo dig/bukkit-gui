@@ -1,5 +1,6 @@
 package com.github.dig.gui.inventory;
 
+import com.github.dig.gui.GuiRegistry;
 import com.github.dig.gui.inventory.action.*;
 import com.github.dig.gui.state.GuiDragState;
 import com.google.common.collect.ImmutableSet;
@@ -23,8 +24,11 @@ public class InventoryGuiListener implements Listener {
     );
 
     private final InventoryGui inventoryGui;
-    public InventoryGuiListener(@NonNull InventoryGui inventoryGui) {
+    private final GuiRegistry guiRegistry;
+    public InventoryGuiListener(@NonNull InventoryGui inventoryGui,
+                                @NonNull GuiRegistry guiRegistry) {
         this.inventoryGui = inventoryGui;
+        this.guiRegistry = guiRegistry;
     }
 
     @EventHandler
@@ -65,6 +69,9 @@ public class InventoryGuiListener implements Listener {
             Player player = (Player) event.getPlayer();
             inventoryGui.handleClose(player);
             inventoryGui.removeViewer(player);
+            if (inventoryGui.getViewerCount() <= 0 && guiRegistry.isRegistered(inventoryGui)) {
+                guiRegistry.unregister(inventoryGui);
+            }
         }
     }
 }

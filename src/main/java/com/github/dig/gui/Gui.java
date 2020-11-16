@@ -11,7 +11,9 @@ public interface Gui {
 
     boolean isViewer(Player player);
 
-    Listener createListener();
+    int getViewerCount();
+
+    Listener createListener(GuiRegistry guiRegistry);
 
     default void handleOpen(Player player) {}
 

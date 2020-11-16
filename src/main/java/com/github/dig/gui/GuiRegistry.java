@@ -5,13 +5,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class GuiRegistry {
+public class GuiRegistry implements Runnable {
 
     private final JavaPlugin plugin;
     private final Set<Gui> guis;
@@ -21,10 +22,12 @@ public class GuiRegistry {
         this.plugin = plugin;
         this.guis = new HashSet<>();
         this.listeners = new HashMap<>();
+        BukkitScheduler scheduler = plugin.getServer().getScheduler();
+        scheduler.runTaskTimer(plugin, this, 1l, 1l);
     }
 
     public void register(@NonNull Gui gui) {
-        Listener listener = gui.createListener();
+        Listener listener = gui.createListener(this);
         Bukkit.getPluginManager().registerEvents(listener, plugin);
         listeners.put(gui, listener);
         guis.add(gui);
@@ -39,5 +42,16 @@ public class GuiRegistry {
 
     public boolean isRegistered(@NonNull Gui gui) {
         return guis.contains(gui);
+    }
+
+    private int tickCount = 0;
+
+    @Override
+    public void run() {
+        guis.stream()
+                .filter(GuiTickable.class::isInstance)
+                .map(GuiTickable.class::cast)
+                .forEach(gui -> gui.tick(tickCount));
+        tickCount++;
     }
 }
