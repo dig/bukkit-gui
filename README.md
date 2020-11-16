@@ -34,4 +34,4 @@ dependencies {
 
 ## License
 
-[GNU](LICENSE) &copy; [dig](https://github.com/dig)
+[MIT](LICENSE) &copy; [dig](https://github.com/dig)
