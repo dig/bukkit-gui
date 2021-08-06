@@ -13,7 +13,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    implementation 'com.github.dig:bukkit-gui:1.0'
+    implementation 'com.github.dig:bukkit-gui:1.2'
 }
 ```
 
@@ -28,7 +28,7 @@ dependencies {
 <dependency>
   <groupId>com.github.dig</groupId>
   <artifactId>bukkit-gui</artifactId>
-  <version>1.0</version>
+  <version>1.2</version>
 </dependency>
 ```
 
