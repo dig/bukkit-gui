@@ -9,11 +9,11 @@ import java.util.Set;
 
 public class CollectToCursorHandler extends InventoryActionHandler {
 
-    private final static Set<InventoryAction> actions = ImmutableSet.of(InventoryAction.COLLECT_TO_CURSOR);
+    private final static Set<InventoryAction> ACTIONS = ImmutableSet.of(InventoryAction.COLLECT_TO_CURSOR);
 
     @Override
     public Set<InventoryAction> getActions() {
-        return actions;
+        return ACTIONS;
     }
 
     @Override

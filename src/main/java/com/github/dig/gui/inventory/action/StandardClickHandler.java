@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class StandardClickHandler extends InventoryActionHandler {
 
-    private final static Set<InventoryAction> actions = ImmutableSet.of(
+    private final static Set<InventoryAction> ACTIONS = ImmutableSet.of(
             InventoryAction.CLONE_STACK,
             InventoryAction.DROP_ALL_CURSOR,
             InventoryAction.DROP_ALL_SLOT,
@@ -30,7 +30,7 @@ public class StandardClickHandler extends InventoryActionHandler {
 
     @Override
     public Set<InventoryAction> getActions() {
-        return actions;
+        return ACTIONS;
     }
 
     @Override

@@ -12,11 +12,11 @@ import java.util.Set;
 
 public class MoveToOtherInventoryHandler extends InventoryActionHandler {
 
-    private final static Set<InventoryAction> actions = ImmutableSet.of(InventoryAction.MOVE_TO_OTHER_INVENTORY);
+    private final static Set<InventoryAction> ACTIONS = ImmutableSet.of(InventoryAction.MOVE_TO_OTHER_INVENTORY);
 
     @Override
     public Set<InventoryAction> getActions() {
-        return actions;
+        return ACTIONS;
     }
 
     @Override

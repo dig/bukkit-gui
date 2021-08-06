@@ -16,13 +16,11 @@ import java.util.Set;
 public abstract class InventoryGui implements Gui {
 
     protected final Inventory inventory;
-    protected final Set<Integer> controllableSlots;
-    private final Set<Player> viewers;
+    protected final Set<Integer> controllableSlots = new HashSet<>();
+    private final Set<Player> viewers = new HashSet<>();
 
     public InventoryGui(@NonNull Inventory inventory) {
         this.inventory = inventory;
-        this.controllableSlots = new HashSet<>();
-        this.viewers = new HashSet<>();
     }
 
     @Override
@@ -61,12 +59,11 @@ public abstract class InventoryGui implements Gui {
         return this.inventory == inventory;
     }
 
-    public abstract void handleItemChange(GuiItemChangeState state);
+    public void handleItemChange(GuiItemChangeState state) {}
 
-    public abstract void handleComponentClick(ComponentClickState state);
+    public void handleComponentClick(ComponentClickState state) {}
 
-    public abstract void handleDrag(GuiDragState state);
+    public void handleDrag(GuiDragState state) {}
 
     protected abstract int slotOf(int x, int y);
-
 }

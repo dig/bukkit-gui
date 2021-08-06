@@ -15,13 +15,11 @@ import java.util.Set;
 public class GuiRegistry implements Runnable {
 
     private final JavaPlugin plugin;
-    private final Set<Gui> guis;
-    private final Map<Gui, Listener> listeners;
+    private final Set<Gui> guis = new HashSet<>();
+    private final Map<Gui, Listener> listeners = new HashMap<>();
 
     public GuiRegistry(@NonNull JavaPlugin plugin) {
         this.plugin = plugin;
-        this.guis = new HashSet<>();
-        this.listeners = new HashMap<>();
         BukkitScheduler scheduler = plugin.getServer().getScheduler();
         scheduler.runTaskTimer(plugin, this, 1l, 1l);
     }
@@ -44,7 +42,7 @@ public class GuiRegistry implements Runnable {
         return guis.contains(gui);
     }
 
-    private int tickCount = 0;
+    private int tickCount;
 
     @Override
     public void run() {

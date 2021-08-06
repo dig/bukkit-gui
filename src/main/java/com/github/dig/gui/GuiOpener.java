@@ -14,6 +14,7 @@ public class GuiOpener {
         player.closeInventory();
         gui.handleOpen(player);
         gui.showTo(player);
+
         if (!guiRegistry.isRegistered(gui)) {
             guiRegistry.register(gui);
         }

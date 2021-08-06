@@ -22,5 +22,4 @@ public class ComponentClickState implements GuiState {
     private final InventoryType.SlotType slotType;
 
     private final ClickType clickType;
-
 }

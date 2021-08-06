@@ -18,5 +18,4 @@ public interface Gui {
     default void handleOpen(Player player) {}
 
     default void handleClose(Player player) {}
-
 }

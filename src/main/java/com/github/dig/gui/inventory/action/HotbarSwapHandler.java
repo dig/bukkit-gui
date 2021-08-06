@@ -11,14 +11,14 @@ import java.util.Set;
 
 public class HotbarSwapHandler extends InventoryActionHandler {
 
-    private final static Set<InventoryAction> actions = ImmutableSet.of(
+    private final static Set<InventoryAction> ACTIONS = ImmutableSet.of(
             InventoryAction.HOTBAR_SWAP,
             InventoryAction.HOTBAR_MOVE_AND_READD
     );
 
     @Override
     public Set<InventoryAction> getActions() {
-        return actions;
+        return ACTIONS;
     }
 
     @Override

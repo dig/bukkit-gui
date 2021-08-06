@@ -11,5 +11,4 @@ public abstract class InventoryActionHandler {
     public abstract Set<InventoryAction> getActions();
 
     public abstract void handle(InventoryClickEvent event, InventoryGui inventoryGui);
-
 }
