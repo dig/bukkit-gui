@@ -5,21 +5,30 @@ import com.github.dig.gui.GuiRegistry;
 import com.github.dig.gui.state.ComponentClickState;
 import com.github.dig.gui.state.GuiDragState;
 import com.github.dig.gui.state.GuiItemChangeState;
-import lombok.NonNull;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public abstract class InventoryGui implements Gui {
 
     protected final Inventory inventory;
+
     protected final Set<Integer> controllableSlots = new HashSet<>();
+
+    private final Map<Integer, Consumer<ItemStack>> callbacks = new HashMap<>();
+
     private final Set<Player> viewers = new HashSet<>();
 
-    public InventoryGui(@NonNull Inventory inventory) {
+    public InventoryGui(Inventory inventory) {
         this.inventory = inventory;
     }
 
@@ -53,15 +62,33 @@ public abstract class InventoryGui implements Gui {
 
     @Override
     public Listener createListener(GuiRegistry guiRegistry) {
-        return new InventoryGuiListener(this, guiRegistry);
+        return new InventoryGuiListener(callbacks, this, guiRegistry);
     }
 
     public boolean isControllable(int slot) {
         return controllableSlots.contains(slot);
     }
 
-    public boolean match(@NonNull Inventory inventory) {
+    public boolean match(Inventory inventory) {
         return this.inventory == inventory;
+    }
+
+    public void setItem(int slot, @Nullable ItemStack item) {
+        callbacks.remove(slot);
+        inventory.setItem(slot, item != null ? item : new ItemStack(Material.AIR));
+    }
+
+    public void setItem(int x, int y, @Nullable ItemStack item) {
+        setItem(slotOf(x, y), item);
+    }
+
+    public void setItem(int slot, @Nullable ItemStack item, Consumer<ItemStack> onSlotClick) {
+        setItem(slot, item);
+        callbacks.put(slot, onSlotClick);
+    }
+
+    public void setItem(int x, int y, @Nullable ItemStack item, Consumer<ItemStack> onSlotClick) {
+        setItem(slotOf(x, y), item, onSlotClick);
     }
 
     public void render() {}

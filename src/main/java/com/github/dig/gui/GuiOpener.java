@@ -6,11 +6,11 @@ import org.bukkit.entity.Player;
 public class GuiOpener {
 
     private final GuiRegistry guiRegistry;
-    public GuiOpener(@NonNull GuiRegistry guiRegistry) {
+    public GuiOpener(GuiRegistry guiRegistry) {
         this.guiRegistry = guiRegistry;
     }
 
-    public void open(@NonNull Player player, @NonNull Gui gui) {
+    public void open(Player player, Gui gui) {
         player.closeInventory();
         
         gui.handleOpen(player);
