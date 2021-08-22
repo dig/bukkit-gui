@@ -74,6 +74,11 @@ public abstract class InventoryGui implements Gui {
         return this.inventory == inventory;
     }
 
+    public void clear() {
+        inventory.clear();
+        callbacks.clear();
+    }
+
     public void setItem(int slot, @Nullable ItemStack item) {
         callbacks.remove(slot);
         inventory.setItem(slot, item != null ? item : new ItemStack(Material.AIR));
