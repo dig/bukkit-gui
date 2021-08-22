@@ -12,6 +12,7 @@ public class GuiOpener {
 
     public void open(@NonNull Player player, @NonNull Gui gui) {
         player.closeInventory();
+        
         gui.handleOpen(player);
         gui.showTo(player);
 

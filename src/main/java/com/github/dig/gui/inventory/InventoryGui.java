@@ -24,6 +24,11 @@ public abstract class InventoryGui implements Gui {
     }
 
     @Override
+    public void handleOpen(Player player) {
+        render();
+    }
+
+    @Override
     public void showTo(Player player) {
         if (!viewers.contains(player)) {
             player.openInventory(inventory);
@@ -58,6 +63,8 @@ public abstract class InventoryGui implements Gui {
     public boolean match(@NonNull Inventory inventory) {
         return this.inventory == inventory;
     }
+
+    public void render() {}
 
     public void handleItemChange(GuiItemChangeState state) {}
 
