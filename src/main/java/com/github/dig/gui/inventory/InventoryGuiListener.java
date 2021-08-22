@@ -2,8 +2,8 @@ package com.github.dig.gui.inventory;
 
 import com.github.dig.gui.GuiRegistry;
 import com.github.dig.gui.inventory.action.*;
+import com.github.dig.gui.state.ComponentClickState;
 import com.github.dig.gui.state.GuiDragState;
-import com.github.dig.gui.util.TriConsumer;
 import com.google.common.collect.ImmutableSet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,10 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public class InventoryGuiListener implements Listener {
 
@@ -25,11 +25,11 @@ public class InventoryGuiListener implements Listener {
             new StandardClickHandler()
     );
 
-    private final Map<Integer, TriConsumer<Player, ItemStack, Integer>> callbacks;
+    private final Map<Integer, Consumer<ComponentClickState>> callbacks;
     private final InventoryGui inventoryGui;
     private final GuiRegistry guiRegistry;
 
-    public InventoryGuiListener(Map<Integer, TriConsumer<Player, ItemStack, Integer>> callbacks,
+    public InventoryGuiListener(Map<Integer, Consumer<ComponentClickState>> callbacks,
                                 InventoryGui inventoryGui,
                                 GuiRegistry guiRegistry) {
         this.callbacks = callbacks;
@@ -51,10 +51,14 @@ public class InventoryGuiListener implements Listener {
 
             // Handle slot callbacks
             int slot = event.getRawSlot();
-            ItemStack item = event.getCurrentItem();
 
             if (callbacks.containsKey(slot)) {
-                callbacks.get(slot).accept(player, item, slot);
+                ComponentClickState clickState = new ComponentClickState(
+                        (Player) event.getWhoClicked(),
+                        event.getCursor(), event.getCurrentItem(),
+                        event.getRawSlot(), event.getSlotType(), event.getClick());
+
+                callbacks.get(slot).accept(clickState);
             }
         }
     }

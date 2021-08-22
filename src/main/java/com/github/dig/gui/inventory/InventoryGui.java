@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 public abstract class InventoryGui implements Gui {
 
@@ -25,7 +26,7 @@ public abstract class InventoryGui implements Gui {
     protected final Set<Integer> controllableSlots = new HashSet<>();
 
     // Player, Item, Slot
-    private final Map<Integer, TriConsumer<Player, ItemStack, Integer>> callbacks = new HashMap<>();
+    private final Map<Integer, Consumer<ComponentClickState>> callbacks = new HashMap<>();
 
     private final Set<Player> viewers = new HashSet<>();
 
@@ -88,12 +89,12 @@ public abstract class InventoryGui implements Gui {
         setItem(slotOf(x, y), item);
     }
 
-    public void setItem(int slot, @Nullable ItemStack item, TriConsumer<Player, ItemStack, Integer> onSlotClick) {
+    public void setItem(int slot, @Nullable ItemStack item, Consumer<ComponentClickState> onSlotClick) {
         setItem(slot, item);
         callbacks.put(slot, onSlotClick);
     }
 
-    public void setItem(int x, int y, @Nullable ItemStack item, TriConsumer<Player, ItemStack, Integer> onSlotClick) {
+    public void setItem(int x, int y, @Nullable ItemStack item, Consumer<ComponentClickState> onSlotClick) {
         setItem(slotOf(x, y), item, onSlotClick);
     }
 
