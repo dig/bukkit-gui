@@ -5,6 +5,7 @@ import com.github.dig.gui.GuiRegistry;
 import com.github.dig.gui.state.ComponentClickState;
 import com.github.dig.gui.state.GuiDragState;
 import com.github.dig.gui.state.GuiItemChangeState;
+import com.github.dig.gui.util.TriConsumer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -16,7 +17,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public abstract class InventoryGui implements Gui {
 
@@ -24,7 +24,8 @@ public abstract class InventoryGui implements Gui {
 
     protected final Set<Integer> controllableSlots = new HashSet<>();
 
-    private final Map<Integer, Consumer<ItemStack>> callbacks = new HashMap<>();
+    // Player, Item, Slot
+    private final Map<Integer, TriConsumer<Player, ItemStack, Integer>> callbacks = new HashMap<>();
 
     private final Set<Player> viewers = new HashSet<>();
 
@@ -82,12 +83,12 @@ public abstract class InventoryGui implements Gui {
         setItem(slotOf(x, y), item);
     }
 
-    public void setItem(int slot, @Nullable ItemStack item, Consumer<ItemStack> onSlotClick) {
+    public void setItem(int slot, @Nullable ItemStack item, TriConsumer<Player, ItemStack, Integer> onSlotClick) {
         setItem(slot, item);
         callbacks.put(slot, onSlotClick);
     }
 
-    public void setItem(int x, int y, @Nullable ItemStack item, Consumer<ItemStack> onSlotClick) {
+    public void setItem(int x, int y, @Nullable ItemStack item, TriConsumer<Player, ItemStack, Integer> onSlotClick) {
         setItem(slotOf(x, y), item, onSlotClick);
     }
 

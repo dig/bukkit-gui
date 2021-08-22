@@ -3,6 +3,7 @@ package com.github.dig.gui.inventory;
 import com.github.dig.gui.GuiRegistry;
 import com.github.dig.gui.inventory.action.*;
 import com.github.dig.gui.state.GuiDragState;
+import com.github.dig.gui.util.TriConsumer;
 import com.google.common.collect.ImmutableSet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 public class InventoryGuiListener implements Listener {
 
@@ -25,11 +25,11 @@ public class InventoryGuiListener implements Listener {
             new StandardClickHandler()
     );
 
-    private final Map<Integer, Consumer<ItemStack>> callbacks;
+    private final Map<Integer, TriConsumer<Player, ItemStack, Integer>> callbacks;
     private final InventoryGui inventoryGui;
     private final GuiRegistry guiRegistry;
 
-    public InventoryGuiListener(Map<Integer, Consumer<ItemStack>> callbacks,
+    public InventoryGuiListener(Map<Integer, TriConsumer<Player, ItemStack, Integer>> callbacks,
                                 InventoryGui inventoryGui,
                                 GuiRegistry guiRegistry) {
         this.callbacks = callbacks;
@@ -40,6 +40,7 @@ public class InventoryGuiListener implements Listener {
     @EventHandler
     public void onClickInventory(InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player && inventoryGui.match(event.getInventory())) {
+            Player player = (Player) event.getWhoClicked();
 
             // Action handlers
             for (InventoryActionHandler actionHandler : ACTION_HANDLERS) {
@@ -53,7 +54,7 @@ public class InventoryGuiListener implements Listener {
             ItemStack item = event.getCurrentItem();
 
             if (callbacks.containsKey(slot)) {
-                callbacks.get(slot).accept(item);
+                callbacks.get(slot).accept(player, item, slot);
             }
         }
     }
