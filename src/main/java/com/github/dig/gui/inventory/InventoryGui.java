@@ -98,6 +98,14 @@ public abstract class InventoryGui implements Gui {
         setItem(slotOf(x, y), item, onSlotClick);
     }
 
+    public void addItem(ItemStack item) {
+        setItem(inventory.firstEmpty(), item);
+    }
+
+    public void addItem(ItemStack item, Consumer<ComponentClickState> onSlotClick) {
+        setItem(inventory.firstEmpty(), item, onSlotClick);
+    }
+
     public void render() {}
 
     public void handleItemChange(GuiItemChangeState state) {}
