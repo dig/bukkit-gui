@@ -36,6 +36,10 @@ public abstract class InventoryGui implements Gui {
 
     @Override
     public void handleOpen(Player player) {
+        if (clearOnRender()) {
+            clear();
+        }
+
         render();
     }
 
@@ -107,6 +111,10 @@ public abstract class InventoryGui implements Gui {
     }
 
     public void render() {}
+    
+    public boolean clearOnRender() {
+        return true;
+    }
 
     public void handleItemChange(GuiItemChangeState state) {}
 
